@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
-    let coinManager = CoinManager()
+    
 
     
     @IBOutlet weak var bitcoinLabel: UILabel!
@@ -34,17 +34,20 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return coinManager.currencyArray.count
+        return CoinManager.instance.currencyArray.count
     }
     
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return coinManager.currencyArray[row]
+        return CoinManager.instance.currencyArray[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
-        coinManager.getCoinPrice(for: coinManager.currencyArray[row])
+        let currentFiatSelected = CoinManager.instance.currencyArray[row]
+        CoinManager.instance.getCoinPrice(for: currentFiatSelected) { rate in
+            
+        }
         
         
     }
