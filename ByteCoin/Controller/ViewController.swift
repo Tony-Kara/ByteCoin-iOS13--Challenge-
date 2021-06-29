@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class ViewController: UIViewController {
     
     
-
+    
     
     @IBOutlet weak var bitcoinLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
@@ -23,12 +23,18 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
     }
+    
+    
+}
 
+//MARK: - Pickerview Data source
 
+extension ViewController: UIPickerViewDataSource {
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -38,6 +44,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     
+}
+
+//MARK: - PickerViewDelegate
+
+extension ViewController: UIPickerViewDelegate {
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return CoinManager.instance.currencyArray[row]
     }
@@ -46,13 +58,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         
         let currentFiatSelected = CoinManager.instance.currencyArray[row]
         CoinManager.instance.getCoinPrice(for: currentFiatSelected) { rate in
-            
+            self.bitcoinLabel.text = rate
+            self.currencyLabel.text = currentFiatSelected
         }
         
         
     }
-    
-    
-    
 }
-
